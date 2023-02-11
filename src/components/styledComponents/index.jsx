@@ -14,7 +14,7 @@ export const AppContainer = styled.div`
   /* background-image: url("https://source.unsplash.com/1600x900/?Clouds,night,dark");
   background-size: cover; */
 
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.26);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
@@ -102,4 +102,37 @@ export const CardContainer = styled.div`
 
 export const H2 = styled.h2`
   font-size: 2rem;
+`;
+
+export const LoaderContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+`;
+
+export const Loader = styled.span`
+  width: 48px;
+  height: 48px;
+  border: 5px solid #fff;
+  border-bottom-color: #ff3d00;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  position: absolute;
+  top: calc(50% - 24px);
+  left: calc(50% - 24px);
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `;

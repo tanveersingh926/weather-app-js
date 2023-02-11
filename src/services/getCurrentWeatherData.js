@@ -21,8 +21,7 @@ const fetchViaAxios = async ({ url }) => {
     data = response.data;
   } catch (err) {
     error = err;
-    alert("something went wrong");
-    console.log("error: ", err);
+    // alert("something went wrong");
   }
   return { data, error };
 };

@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import useFetch from "../../hooks/useFetch";
+import useGeoLocation from "../../hooks/useGeoLocation";
+import { DEFAULT_CITY } from "../../constants";
 
 const SearchContainer = styled.div`
   width: 100%;
@@ -43,11 +44,15 @@ const SearchCTA = styled.button`
 
 function SearchBar({ setQuery }) {
   const searchRef = useRef();
+  const { coords, error } = useGeoLocation();
+
+  useEffect(() => {
+    setQuery(coords && !error ? coords : { q: DEFAULT_CITY });
+  }, [coords, error]);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(searchRef.current.value);
-    setQuery(searchRef.current.value);
+    setQuery({ q: searchRef.current.value });
   };
 
   return (
@@ -62,6 +67,8 @@ function SearchBar({ setQuery }) {
   );
 }
 
-SearchBar.prototype = {};
+SearchBar.prototype = {
+  setQuery: PropTypes.func.isRequired,
+};
 
 export default SearchBar;

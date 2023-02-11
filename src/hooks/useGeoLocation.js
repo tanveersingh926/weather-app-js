@@ -20,7 +20,13 @@ function useGeoLocation() {
   };
 
   useEffect(() => {
-    navigator?.geolocation?.getCurrentPosition(onSuccess, onError, options);
+    const geoLocation = navigator?.geolocation;
+    if (!geoLocation) {
+      setError("GeoLocation not available");
+      return;
+    }
+
+    geoLocation.getCurrentPosition(onSuccess, onError, options);
   }, []);
 
   return { coords, error };

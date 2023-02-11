@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import { IMG_BASE_URL } from "../constants/index";
 
 export const formatCurrentWeatherData = (data) => {
   const {
@@ -20,4 +21,8 @@ export const formatCurrentWeatherData = (data) => {
     },
     coord,
   };
+};
+
+export const generateIconUrl = (iconCode) => {
+  return `${IMG_BASE_URL}${iconCode}@2x.png`;
 };

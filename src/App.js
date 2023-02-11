@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 
-import styled, { useTheme } from "styled-components";
+import styled from "styled-components";
 import {
   AppContainer,
   CurrentWeatherContainer,
   ForecastContainer,
   H2,
+  Loader,
+  LoaderContainer,
 } from "./components/styledComponents";
 
 import SearchBar from "./components/searchBar/";
 import ForecastCard from "./components/forecastCard/";
 import CurrentWeatherDetails from "./components/currentWeatherDetails/";
 import { getCurrentWeatherData } from "./services";
+import { DEFAULT_CITY, FORECAST_TYPE } from "./constants";
 
-// Local used styled Forecast components
+// Locally used styled  components
 const HourlyForecastContainer = styled.div`
   font-size: 1.5rem;
   font-weight: 600;
@@ -41,41 +44,8 @@ const DailyForecastContainer = styled.div`
   justify-content: space-between;
 `;
 
-const LoaderContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1;
-`;
-
-const Loader = styled.span`
-  width: 48px;
-  height: 48px;
-  border: 5px solid #fff;
-  border-bottom-color: #ff3d00;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-  position: absolute;
-  top: calc(50% - 24px);
-  left: calc(50% - 24px);
-
-  @keyframes rotation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`;
-
 function App() {
-  const [query, setQuery] = useState("Surrey,CA");
+  const [query, setQuery] = useState({ q: DEFAULT_CITY });
   const [currentWeatherProps, setCurrentWeatherProps] = useState(null);
   const [dailyForecast, setDailyForecast] = useState([]);
   const [hourlyForecast, setHourlyForecast] = useState([]);
@@ -86,7 +56,7 @@ function App() {
     const formattedCurrentWeatherData = async () => {
       const { weatherDetails, error, dailyFormattedData, hourlyFormattedData } =
         await getCurrentWeatherData({
-          searchParams: { q: query },
+          searchParams: query,
           query,
         });
 
@@ -124,12 +94,12 @@ function App() {
           <HourlyForecastContainer>Hourly</HourlyForecastContainer>
 
           <HourlyForecastWrapper>
-            {hourlyForecast.map((data, index) => {
+            {hourlyForecast.map((forecastItem, index) => {
               return (
                 <ForecastCard
                   key={"hourlyForecast" + index}
-                  {...data}
-                  forecastType="hourly"
+                  {...forecastItem}
+                  forecastType={FORECAST_TYPE.HOURLY}
                 />
               );
             })}
@@ -138,8 +108,10 @@ function App() {
           <H2>Daily Forecast</H2>
 
           <DailyForecastContainer>
-            {dailyForecast.map((data, index) => {
-              return <ForecastCard key={"dailyForecast" + index} {...data} />;
+            {dailyForecast.map((forecastItem, index) => {
+              return (
+                <ForecastCard key={"dailyForecast" + index} {...forecastItem} />
+              );
             })}
           </DailyForecastContainer>
         </ForecastContainer>
