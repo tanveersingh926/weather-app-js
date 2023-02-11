@@ -67,7 +67,7 @@ function SearchBar({ setQuery }) {
   );
 }
 
-SearchBar.prototype = {
+SearchBar.propTypes = {
   setQuery: PropTypes.func.isRequired,
 };
 

@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { IMG_BASE_URL } from "../constants/index";
+import { FORECAST_TYPE, IMG_BASE_URL } from "../constants/index";
 
 export const formatCurrentWeatherData = (data) => {
   const {
@@ -25,4 +25,38 @@ export const formatCurrentWeatherData = (data) => {
 
 export const generateIconUrl = (iconCode) => {
   return `${IMG_BASE_URL}${iconCode}@2x.png`;
+};
+
+const formatIndividualForecastItem = ({
+  dt,
+  temp,
+  weather: [{ icon }],
+  timezone,
+  forecastType,
+}) => ({
+  dateAndTime: DateTime.fromMillis(dt * 1000).setZone(timezone),
+  temp: forecastType === FORECAST_TYPE.HOURLY ? temp : temp.day,
+  iconCode: icon,
+});
+
+export const formatDailyHourlyData = (forecastData) => {
+  const timezone = forecastData.timezone;
+
+  const hourlyRawData = forecastData.hourly.slice(0, 4);
+  const hourlyFormattedData = hourlyRawData.map((item) =>
+    formatIndividualForecastItem({
+      ...item,
+      timezone,
+      forecastType: FORECAST_TYPE.HOURLY,
+    })
+  );
+
+  const dailyRawData = forecastData.daily.slice(1, 7);
+  const dailyFormattedData = dailyRawData.map((item) =>
+    formatIndividualForecastItem({
+      ...item,
+      timezone,
+    })
+  );
+  return { hourlyFormattedData, dailyFormattedData };
 };
