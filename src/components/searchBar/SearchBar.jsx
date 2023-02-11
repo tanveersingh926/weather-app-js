@@ -44,9 +44,10 @@ const SearchCTA = styled.button`
 
 function SearchBar({ setQuery }) {
   const searchRef = useRef();
-  const { coords, error } = useGeoLocation();
+  const { coords, error, loading } = useGeoLocation();
 
   useEffect(() => {
+    if (loading) return;
     setQuery(coords && !error ? coords : { q: DEFAULT_CITY });
   }, [coords, error]);
 

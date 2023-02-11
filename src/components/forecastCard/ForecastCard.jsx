@@ -7,6 +7,7 @@ import {
   CardContainer,
 } from "../styledComponents";
 import { generateIconUrl } from "../../utils";
+import { DateTime } from "luxon";
 
 function ForecastCard({ forecastType, dateAndTime, temp, iconCode }) {
   return (
@@ -22,7 +23,7 @@ function ForecastCard({ forecastType, dateAndTime, temp, iconCode }) {
 
 ForecastCard.propTypes = {
   forecastType: PropTypes.string,
-  dateAndTime: PropTypes.instanceOf(Date).isRequired,
+  dateAndTime: PropTypes.instanceOf(DateTime).isRequired,
   temp: PropTypes.number.isRequired,
   iconCode: PropTypes.string.isRequired,
 };

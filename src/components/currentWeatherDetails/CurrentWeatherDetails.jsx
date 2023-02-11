@@ -5,6 +5,7 @@ import { WiBarometer } from "react-icons/wi";
 import { generateIconUrl } from "../../utils";
 import { DATE_TIME_FORMAT } from "../../constants";
 import PropTypes from "prop-types";
+import { DateTime } from "luxon";
 
 const CurrentWeatherWrapper = styled.div`
   text-align: center;
@@ -84,7 +85,7 @@ function CurrentWeatherDetails({
 
 CurrentWeatherDetails.propTypes = {
   currentTemp: PropTypes.number.isRequired,
-  timeAndDate: PropTypes.instanceOf(Date).isRequired,
+  timeAndDate: PropTypes.instanceOf(DateTime).isRequired,
   weatherDesc: PropTypes.string.isRequired,
   feelsLike: PropTypes.number.isRequired,
   cityName: PropTypes.string.isRequired,

@@ -14,7 +14,8 @@ import SearchBar from "./components/searchBar/";
 import ForecastCard from "./components/forecastCard/";
 import CurrentWeatherDetails from "./components/currentWeatherDetails/";
 import { getCurrentWeatherData } from "./services";
-import { DEFAULT_CITY, FORECAST_TYPE } from "./constants";
+import { FORECAST_TYPE } from "./constants";
+import { DateTime } from "luxon";
 
 // Locally used styled  components
 const HourlyForecastContainer = styled.div`
@@ -44,14 +45,27 @@ const DailyForecastContainer = styled.div`
   justify-content: space-between;
 `;
 
+const initialCurrentWeatherState = {
+  currentTemp: 12,
+  timeAndDate: DateTime.now(),
+  weatherDesc: "Cloudy",
+  feelsLike: 243,
+  cityName: "Surrey",
+  iconCode: "04n",
+};
+
 function App() {
-  const [query, setQuery] = useState({ q: DEFAULT_CITY });
+  const [query, setQuery] = useState(null);
   const [currentWeatherProps, setCurrentWeatherProps] = useState(null);
   const [dailyForecast, setDailyForecast] = useState([]);
   const [hourlyForecast, setHourlyForecast] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.count("queryType");
+    console.log(query);
+    if (!query) return;
+
     setLoading(true);
     const formattedCurrentWeatherData = async () => {
       const { weatherDetails, error, dailyFormattedData, hourlyFormattedData } =
