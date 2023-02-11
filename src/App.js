@@ -11,9 +11,7 @@ import {
 import SearchBar from "./components/searchBar/";
 import ForecastCard from "./components/forecastCard/";
 import CurrentWeatherDetails from "./components/currentWeatherDetails/";
-import useFetch from "./hooks/useFetch";
-// import useGeoLocation from "./hooks/useGeoLocation";
-import axios from "axios";
+import { getCurrentWeatherData } from "./services";
 
 // Local used styled Forecast components
 const HourlyForecastContainer = styled.div`
@@ -43,152 +41,110 @@ const DailyForecastContainer = styled.div`
   justify-content: space-between;
 `;
 
+const LoaderContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+`;
+
+const Loader = styled.span`
+  width: 48px;
+  height: 48px;
+  border: 5px solid #fff;
+  border-bottom-color: #ff3d00;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  position: absolute;
+  top: calc(50% - 24px);
+  left: calc(50% - 24px);
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
 function App() {
   const [query, setQuery] = useState("Surrey,CA");
-  const [currentWeatherProps, setCurrentWeatherProps] = useState({
-    currentTemp: 12,
-    timeAndDate: 1234565,
-    weatherDesc: "Cloudy",
-    feelsLike: 243,
-    cityName: "Surrey",
-    iconCode: "04n",
-  });
-
-  // const { coords, error: geoLocationError } = useGeoLocation();
-
-  // useEffect(() => {
-  //   if (coords) {
-  //     console.log("Fetch data based on the coords from geolocation");
-  //   }
-  //   console.log("Running for Cords", coords);
-  // }, [coords]);
-
-  // console.log({ coords });
-
-  // const {
-  //   data = {
-  //     dt: 1687263,
-  //     main: { temp: 32, feels_like: 432 },
-  //     weather: { description: "Mostly Clouds", icon: "04n" },
-  //   },
-  //   loading,
-  //   error,
-  //   // refetch,
-  // } = useFetch(
-  //   // `https://api.openweathermap.org/data/3.0/weather?p=${query}&appid=f195733492ba878a9a46c9f3b1f9acd7`,
-  //   `https://api.openweathermap.org/data/2.5/weather?q=${query}&units=metric&appid=fd3452ba36f31af842ce74adf0af996a`
-  // );
+  const [currentWeatherProps, setCurrentWeatherProps] = useState(null);
+  const [dailyForecast, setDailyForecast] = useState([]);
+  const [hourlyForecast, setHourlyForecast] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getData = async () => {
-      const res = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${query}&units=metric&appid=fd3452ba36f31af842ce74adf0af996a`
-      );
-      // console.log(res.data);
-      const {
-        dt: timeAndDate,
-        main: { temp: currentTemp, feels_like: feelsLike },
-        weather: [{ description: weatherDesc, icon: iconCode }],
-        name: cityName,
-      } = res.data;
+    setLoading(true);
+    const formattedCurrentWeatherData = async () => {
+      const { weatherDetails, error, dailyFormattedData, hourlyFormattedData } =
+        await getCurrentWeatherData({
+          searchParams: { q: query },
+          query,
+        });
 
-      setCurrentWeatherProps({
-        currentTemp,
-        timeAndDate,
-        weatherDesc,
-        feelsLike,
-        cityName,
-        iconCode,
-      });
+      if (error) {
+        alert("Fetching Failed");
+        setLoading(false);
+        return;
+      }
+      setCurrentWeatherProps(weatherDetails);
+      setDailyForecast(dailyFormattedData);
+      setHourlyForecast(hourlyFormattedData);
+      setLoading(false);
     };
-
-    getData();
+    formattedCurrentWeatherData();
   }, [query]);
 
-  // const {
-  //   dt,
-  //   main: { temp, feels_like },
-  //   weather: { description, icon },
-  //   name,
-  // } = data;
-
-  // if (data) {
-  //  const data);
-  // }
-  // useEffect(() => {
-  //   setCoords(coords);
-  //   fetchData(coords);
-  // }, [coords]);
-
-  // const fetchData = ({ lat, lon }) => {
-  //   console.log({ lat, lon });
-  // };
-
-  const { data, loading, refetch } = useFetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${query}&units=metric&appid=fd3452ba36f31af842ce74adf0af996a`,
-    {}
-  );
-
-  if (data) {
-    const {
-      dt: timeAndDate,
-      main: { temp: currentTemp, feels_like: feelsLike },
-      weather: [{ description: weatherDesc, icon: iconCode }],
-      name: cityName,
-    } = data;
-
-    setCurrentWeatherProps({
-      currentTemp,
-      timeAndDate,
-      weatherDesc,
-      feelsLike,
-      cityName,
-      iconCode,
-    });
-  }
-  // console.log(data);
-
-  // useEffect(() => {
-  //   navigator.geolocation.getCurrentPosition(success, error, options);
-  // }, []);
-
   const error = false;
-  // if (loading) return "loading";
-
-  // console.log(query);
 
   return (
-    <AppContainer>
-      <CurrentWeatherContainer>
-        <SearchBar setQuery={setQuery} />
-        {currentWeatherProps && !error && (
-          <CurrentWeatherDetails {...currentWeatherProps} />
-        )}
-      </CurrentWeatherContainer>
+    <>
+      {loading && (
+        <LoaderContainer>
+          <Loader />
+        </LoaderContainer>
+      )}
+      <AppContainer>
+        <CurrentWeatherContainer>
+          <SearchBar setQuery={setQuery} />
+          {currentWeatherProps && !error && (
+            <CurrentWeatherDetails {...currentWeatherProps} />
+          )}
+        </CurrentWeatherContainer>
 
-      <ForecastContainer>
-        <HourlyForecastContainer>Hourly</HourlyForecastContainer>
+        <ForecastContainer>
+          <HourlyForecastContainer>Hourly</HourlyForecastContainer>
 
-        <HourlyForecastWrapper>
-          <ForecastCard forecastType="hourly" />
-          <ForecastCard forecastType="hourly" />
-          <ForecastCard forecastType="hourly" />
-          <ForecastCard forecastType="hourly" />
-        </HourlyForecastWrapper>
+          <HourlyForecastWrapper>
+            {hourlyForecast.map((data, index) => {
+              return (
+                <ForecastCard
+                  key={"hourlyForecast" + index}
+                  {...data}
+                  forecastType="hourly"
+                />
+              );
+            })}
+          </HourlyForecastWrapper>
 
-        <H2>Daily Forecast</H2>
+          <H2>Daily Forecast</H2>
 
-        <DailyForecastContainer>
-          <ForecastCard />
-          <ForecastCard />
-          <ForecastCard />
-
-          <ForecastCard />
-          <ForecastCard />
-          <ForecastCard />
-        </DailyForecastContainer>
-      </ForecastContainer>
-    </AppContainer>
+          <DailyForecastContainer>
+            {dailyForecast.map((data, index) => {
+              return <ForecastCard key={"dailyForecast" + index} {...data} />;
+            })}
+          </DailyForecastContainer>
+        </ForecastContainer>
+      </AppContainer>
+    </>
   );
 }
 

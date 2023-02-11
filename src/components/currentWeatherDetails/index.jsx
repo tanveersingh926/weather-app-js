@@ -35,6 +35,7 @@ const CurrentWeatherDetailsItem = styled.div`
   text-align: left;
   font-size: 1.3rem;
   padding: 0.5rem 0;
+  text-transform: capitalize;
 `;
 
 const WeatherDescIcon = styled(WiFog)`
@@ -61,8 +62,10 @@ function CurrentWeatherDetails({
           src={`https://openweathermap.org/img/wn/${iconCode}@2x.png`}
           alt="weather icon"
         />
-        <CurrentTemp>{currentTemp}° C</CurrentTemp>
-        <CurrentTimeAndDay>{timeAndDate} Sunday | 2:00 PM</CurrentTimeAndDay>
+        <CurrentTemp>{currentTemp.toFixed()}° C</CurrentTemp>
+        <CurrentTimeAndDay>
+          {timeAndDate.toFormat("cccc '|' hh:mm a")}
+        </CurrentTimeAndDay>
       </CurrentWeatherWrapper>
 
       <CurrentWeatherDetailsWrapper>
@@ -72,7 +75,7 @@ function CurrentWeatherDetails({
         </CurrentWeatherDetailsItem>
         <CurrentWeatherDetailsItem>
           <FeelsLikeIcon />
-          Feels like: {feelsLike}
+          Feels like {feelsLike.toFixed()}° C
         </CurrentWeatherDetailsItem>
       </CurrentWeatherDetailsWrapper>
     </>

@@ -1,5 +1,4 @@
 import React from "react";
-import { imgBaseUrl } from "../../constants/index";
 import {
   CardImg,
   CardSubtitle,
@@ -7,18 +6,21 @@ import {
   CardContainer,
 } from "../styledComponents";
 
-interface ForecastCardProps {
-  forecastType?: "hourly";
-}
-
-function ForecastCard({ forecastType }: ForecastCardProps) {
+function ForecastCard({ forecastType, dateAndTime, temp, iconCode }) {
   return (
     <CardContainer forecastType={forecastType}>
-      <CardTitle>Monday</CardTitle>
+      <CardTitle>{dateAndTime && dateAndTime.toFormat("cccc")}</CardTitle>
       <CardImg>
-        <img src={imgBaseUrl} alt="weather icon" />
+        <img
+          src={`https://openweathermap.org/img/wn/${iconCode}@2x.png`}
+          alt="weather icon"
+        />
       </CardImg>
-      <CardSubtitle>15 C | -3 C</CardSubtitle>
+      <CardSubtitle>
+        {temp.toFixed() + "° C"}
+        {/* {temp && temp?.day?.toFixed() + "° C |"}{" "} */}
+        {/* {temp && temp?.night?.toFixed() + "° C"} */}
+      </CardSubtitle>
     </CardContainer>
   );
 }

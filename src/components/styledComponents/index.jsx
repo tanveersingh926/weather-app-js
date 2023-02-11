@@ -76,6 +76,7 @@ export const CardContainer = styled.div`
   margin: 0 0.5rem 0.5rem 0.5rem;
   border-radius: 20px;
   overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.1);
   width: ${(props) =>
     props.forecastType === "hourly"
       ? "25%"
