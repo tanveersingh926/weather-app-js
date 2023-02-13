@@ -66,4 +66,18 @@ describe("<SearchBar />", () => {
 
     expect(setQuery).not.toHaveBeenCalled();
   });
+
+  it("Should not call setQuery if input is empty", async () => {
+    render(<SearchBar setQuery={setQuery} />);
+
+    await waitFor(() => {
+      return screen.findByPlaceholderText("Search City");
+    });
+
+    const searchInput = screen.getByPlaceholderText("Search City");
+    fireEvent.change(searchInput, { target: { value: "" } });
+    fireEvent.click(screen.getByRole("button"));
+
+    expect(setQuery).not.toHaveBeenCalled();
+  });
 });

@@ -53,7 +53,12 @@ function SearchBar({ setQuery }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setQuery({ q: searchRef.current.value });
+    const searchValue = searchRef.current.value;
+    if (!searchValue) {
+      alert("Please enter the city name.");
+    } else {
+      setQuery({ q: searchRef.current.value });
+    }
   };
 
   return (
