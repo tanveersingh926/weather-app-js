@@ -60,7 +60,7 @@ function SearchBar({ setQuery }) {
     <SearchContainer>
       <form onSubmit={onSubmit}>
         <SearchInput placeholder="Search City" type="search" ref={searchRef} />
-        <SearchCTA type="submit">
+        <SearchCTA type="submit" role="button">
           <AiOutlineSearch />
         </SearchCTA>
       </form>
