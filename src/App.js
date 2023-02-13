@@ -64,7 +64,6 @@ function App() {
       const { weatherDetails, error, dailyFormattedData, hourlyFormattedData } =
         await getCurrentWeatherData({
           searchParams: query,
-          query,
         });
 
       if (error) {

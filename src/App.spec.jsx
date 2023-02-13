@@ -17,18 +17,14 @@ jest.mock("./hooks/useGeoLocation", () => ({
   }),
 }));
 
-// Enable request interception.
 beforeAll(() => server.listen());
 
-// Reset handlers so that each test could alter them
-// without affecting other, unrelated tests.
 afterEach(() => server.resetHandlers());
 
-// Don't forget to clean up afterwards.
 afterAll(() => server.close());
 
 describe("<App />", () => {
-  it("Should have searchBar component", async () => {
+  it("Should render", async () => {
     render(<App />);
 
     await waitFor(() => {
