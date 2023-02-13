@@ -61,20 +61,32 @@ function CurrentWeatherDetails({
   return (
     <>
       <CurrentWeatherWrapper>
-        <CityName>{cityName}</CityName>
-        <img src={generateIconUrl(iconCode)} alt={weatherDesc} />
-        <CurrentTemp>{currentTemp.toFixed()}° C</CurrentTemp>
-        <CurrentTimeAndDay>
+        <CityName data-testid={"currentWeatherDetails__city-name"}>
+          {cityName}
+        </CityName>
+        <img
+          src={generateIconUrl(iconCode)}
+          alt={weatherDesc}
+          data-testid={"currentWeatherDetails__icon-code"}
+        />
+        <CurrentTemp data-testid={"currentWeatherDetails__current-temp"}>
+          {currentTemp.toFixed()}° C
+        </CurrentTemp>
+        <CurrentTimeAndDay data-testid={"currentWeatherDetails__time-date"}>
           {timeAndDate.toFormat(DATE_TIME_FORMAT)}
         </CurrentTimeAndDay>
       </CurrentWeatherWrapper>
 
       <CurrentWeatherDetailsWrapper>
-        <CurrentWeatherDetailsItem>
+        <CurrentWeatherDetailsItem
+          data-testid={"currentWeatherDetails__weather-desc"}
+        >
           <WeatherDescIcon />
           {weatherDesc}
         </CurrentWeatherDetailsItem>
-        <CurrentWeatherDetailsItem>
+        <CurrentWeatherDetailsItem
+          data-testid={"currentWeatherDetails__feels-like"}
+        >
           <FeelsLikeIcon />
           Feels like {feelsLike.toFixed()}° C
         </CurrentWeatherDetailsItem>
