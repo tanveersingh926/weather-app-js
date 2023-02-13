@@ -11,7 +11,7 @@ export const GlobalStyle = createGlobalStyle`
     background-image:url(${bgImg}) ;
     background-size: cover;
     font-family: 'Nunito', sans-serif;
-    color:#fff;
+    color:#ffffff;
 
   }
   * {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import styled from "styled-components";
 import {
@@ -14,7 +14,6 @@ import SearchBar from "./components/searchBar/";
 import ForecastCard from "./components/forecastCard/";
 import CurrentWeatherDetails from "./components/currentWeatherDetails/";
 import { getCurrentWeatherData } from "./services";
-import { FORECAST_TYPE } from "./constants";
 
 // Locally used styled  components
 const HourlyForecastContainer = styled.div`
@@ -50,6 +49,12 @@ function App() {
   const [dailyForecast, setDailyForecast] = useState([]);
   const [hourlyForecast, setHourlyForecast] = useState([]);
   const [loading, setLoading] = useState(true);
+  const setQueryWithUseCallback = useCallback(
+    (newQuery) => {
+      setQuery(newQuery);
+    },
+    [setQuery]
+  );
 
   useEffect(() => {
     if (!query) return;
@@ -75,8 +80,6 @@ function App() {
     formattedCurrentWeatherData();
   }, [query]);
 
-  const error = false;
-
   return (
     <>
       {loading && (
@@ -86,8 +89,8 @@ function App() {
       )}
       <AppContainer>
         <CurrentWeatherContainer>
-          <SearchBar setQuery={setQuery} />
-          {currentWeatherProps && !error && (
+          <SearchBar setQuery={setQueryWithUseCallback} />
+          {currentWeatherProps && (
             <CurrentWeatherDetails {...currentWeatherProps} />
           )}
         </CurrentWeatherContainer>

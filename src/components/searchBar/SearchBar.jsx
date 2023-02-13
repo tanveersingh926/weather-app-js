@@ -49,7 +49,7 @@ function SearchBar({ setQuery }) {
   useEffect(() => {
     if (loading) return;
     setQuery(coords && !error ? coords : { q: DEFAULT_CITY });
-  }, [coords, error]);
+  }, [coords, error, loading]);
 
   const onSubmit = (e) => {
     e.preventDefault();
