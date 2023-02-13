@@ -15,7 +15,6 @@ import ForecastCard from "./components/forecastCard/";
 import CurrentWeatherDetails from "./components/currentWeatherDetails/";
 import { getCurrentWeatherData } from "./services";
 import { FORECAST_TYPE } from "./constants";
-import { DateTime } from "luxon";
 
 // Locally used styled  components
 const HourlyForecastContainer = styled.div`
@@ -45,15 +44,6 @@ const DailyForecastContainer = styled.div`
   justify-content: space-between;
 `;
 
-const initialCurrentWeatherState = {
-  currentTemp: 12,
-  timeAndDate: DateTime.now(),
-  weatherDesc: "Cloudy",
-  feelsLike: 243,
-  cityName: "Surrey",
-  iconCode: "04n",
-};
-
 function App() {
   const [query, setQuery] = useState(null);
   const [currentWeatherProps, setCurrentWeatherProps] = useState(null);
@@ -62,8 +52,6 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.count("queryType");
-    console.log(query);
     if (!query) return;
 
     setLoading(true);
@@ -75,7 +63,7 @@ function App() {
         });
 
       if (error) {
-        alert("Fetching Failed");
+        alert("Something went wrong. Please try again.");
         setLoading(false);
         return;
       }
@@ -113,7 +101,7 @@ function App() {
                 <ForecastCard
                   key={"hourlyForecast" + index}
                   {...forecastItem}
-                  forecastType={FORECAST_TYPE.HOURLY}
+                  isHourlyForecast={true}
                 />
               );
             })}

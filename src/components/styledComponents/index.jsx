@@ -78,7 +78,7 @@ export const CardContainer = styled.div`
   overflow: hidden;
   background-color: rgba(255, 255, 255, 0.1);
   width: ${(props) =>
-    props.forecastType === "hourly"
+    props.isHourlyForecast
       ? "25%"
       : "calc(33% - 1.5rem); margin: 0 0 1.5rem 0;"};
   min-width: 100px;

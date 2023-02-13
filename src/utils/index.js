@@ -42,7 +42,7 @@ const formatIndividualForecastItem = ({
 export const formatDailyHourlyData = (forecastData) => {
   const timezone = forecastData.timezone;
 
-  const hourlyRawData = forecastData.hourly.slice(0, 4);
+  const hourlyRawData = forecastData.hourly.slice(1, 5);
   const hourlyFormattedData = hourlyRawData.map((item) =>
     formatIndividualForecastItem({
       ...item,
@@ -51,7 +51,7 @@ export const formatDailyHourlyData = (forecastData) => {
     })
   );
 
-  const dailyRawData = forecastData.daily.slice(1, 7);
+  const dailyRawData = forecastData.daily.slice(0, 6);
   const dailyFormattedData = dailyRawData.map((item) =>
     formatIndividualForecastItem({
       ...item,

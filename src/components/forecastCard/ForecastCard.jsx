@@ -9,10 +9,18 @@ import {
 import { generateIconUrl } from "../../utils";
 import { DateTime } from "luxon";
 
-function ForecastCard({ forecastType, dateAndTime, temp, iconCode }) {
+function ForecastCard({
+  isHourlyForecast = false,
+  dateAndTime,
+  temp,
+  iconCode,
+}) {
   return (
-    <CardContainer forecastType={forecastType}>
-      <CardTitle>{dateAndTime && dateAndTime.toFormat("cccc")}</CardTitle>
+    <CardContainer isHourlyForecast={isHourlyForecast}>
+      <CardTitle>
+        {dateAndTime &&
+          dateAndTime.toFormat(isHourlyForecast ? "hh:mm a" : "cccc")}
+      </CardTitle>
       <CardImg>
         <img src={generateIconUrl(iconCode)} alt="Weather" />
       </CardImg>
@@ -22,7 +30,7 @@ function ForecastCard({ forecastType, dateAndTime, temp, iconCode }) {
 }
 
 ForecastCard.propTypes = {
-  forecastType: PropTypes.string,
+  isHourlyForecast: PropTypes.bool,
   dateAndTime: PropTypes.instanceOf(DateTime).isRequired,
   temp: PropTypes.number.isRequired,
   iconCode: PropTypes.string.isRequired,
