@@ -11,3 +11,4 @@ const localStorageMock = {
   clear: jest.fn(),
 };
 global.localStorage = localStorageMock;
+global.alert = jest.fn();
