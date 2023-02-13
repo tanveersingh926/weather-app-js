@@ -13,16 +13,16 @@ const SearchInput = styled.input`
   width: 100%;
   background: transparent;
   border: 0;
-  border-bottom: 2px solid #aeaeae;
+  border-bottom: 2px solid ${(props) => props.theme.borders.lightGray};
   outline-color: transparent;
-  color: #fff;
+  color: ${(props) => props.theme.textColors.primary};
   font-size: 1.4rem;
   padding: 0.5rem;
 
   &:focus,
   &:focus-visible {
     border: 0;
-    border-bottom: 2px solid white;
+    border-bottom: 2px solid ${(props) => props.theme.textColors.primary};
     outline-color: transparent;
     outline-width: 0;
   }
@@ -33,12 +33,12 @@ const SearchCTA = styled.button`
   right: 0.5rem;
   top: 1rem;
   text-align: center;
-  color: #dbdbdb;
+  color: ${(props) => props.theme.textColors.secondary};
   cursor: pointer;
   font-size: 1.3rem;
 
   &:hover {
-    color: #fff;
+    color: ${(props) => props.theme.textColors.primary};
   }
 `;
 

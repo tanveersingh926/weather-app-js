@@ -10,7 +10,7 @@ import { DateTime } from "luxon";
 const CurrentWeatherWrapper = styled.div`
   text-align: center;
   font-size: 1.2rem;
-  border-bottom: 1px solid #6a6a6a;
+  border-bottom: 1px solid ${(props) => props.theme.borders.lightGray};
   padding-bottom: 3rem;
   margin-bottom: 3rem;
 `;

@@ -7,18 +7,15 @@ export const AppContainer = styled.div`
   width: calc(100% - 6rem);
   padding: 2rem;
   margin: 2rem auto;
-  background-color: white;
+  background-color: ${(props) => props.theme.textColors.primary};
   border-radius: 40px;
   overflow: hidden;
   position: relative;
-  /* background-image: url("https://source.unsplash.com/1600x900/?Clouds,night,dark");
-  background-size: cover; */
-
-  background: rgba(255, 255, 255, 0.26);
+  background: ${(props) => props.theme.borders.lightGray};
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
-  border: 1px solid rgba(255, 255, 255, 0.23);
+  border: 1px solid ${(props) => props.theme.borders.lightGray};
 
   @media (max-width: ${({ theme }) => theme.screenSizes.smallDesktops}) {
     flex-wrap: wrap;
@@ -33,14 +30,14 @@ export const CurrentWeatherContainer = styled.div`
     width: 100%;
     padding: 0;
     margin-bottom: 3rem;
-    border-bottom: 1px solid #747474;
+    border-bottom: 1px solid ${(props) => props.theme.borders.lightGray};
     padding-bottom: 3rem;
   }
 `;
 
 export const ForecastContainer = styled.div`
   width: 60%;
-  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: 1px solid ${(props) => props.theme.borders.lightGray};
   padding: 0 0 0 2rem;
 
   @media (max-width: ${({ theme }) => theme.screenSizes.smallDesktops}) {
@@ -71,12 +68,12 @@ export const CardSubtitle = styled.div`
 `;
 
 export const CardContainer = styled.div`
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid ${(props) => props.theme.borders.lightGray};
   padding: 0.5rem;
   margin: 0 0.5rem 0.5rem 0.5rem;
   border-radius: 20px;
   overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: ${(props) => props.theme.borders.lightGray};
   width: ${(props) =>
     props.isHourlyForecast
       ? "25%"

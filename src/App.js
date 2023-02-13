@@ -17,8 +17,8 @@ import { getCurrentWeatherData } from "./services";
 
 // Locally used styled  components
 const HourlyForecastContainer = styled.div`
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: ${(props) => props.theme.fontSize.smallerHeading};
+  font-weight: ${(props) => props.theme.fontWeight.semibold};
   display: flex;
   justify-content: space-between;
   margin-bottom: 2rem;
@@ -31,7 +31,7 @@ const HourlyForecastWrapper = styled.div`
   @media (max-width: ${({ theme }) => theme.screenSizes.tablet}) {
     width: 100%;
     margin-bottom: 3rem;
-    border-bottom: 1px solid #747474;
+    border-bottom: 1px solid ${(props) => props.theme.borders.lightGray};
     padding-bottom: 3rem;
     flex-wrap: wrap;
   }
