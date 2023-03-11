@@ -1,5 +1,5 @@
 const BASE_URL = "https://api.openweathermap.org/data";
-const APP_ID = "fd3452ba36f31af842ce74adf0af996a";
+const APP_ID = "df1b7fb14737dab856f88f9b7517ca3e";
 
 const SERVICES_PATH_KEY = {
   CURRENT_WEATHER: "currentWeather",
